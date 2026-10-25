@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111411">
+  <title>PipJournal — Trading journal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div><div class="eyebrow">Backtesting workspace</div><h1 class="brand">PipJournal</h1><p class="subtitle">A simple journal for trades and pips.</p></div>
+      <div class="actions"><button class="btn primary" id="newTradeBtn">+ Add trade</button><button class="btn" id="newDrawBtn">Log a draw</button></div>
+    </header>
+
+    <section aria-labelledby="overviewTitle">
+      <h2 class="section-title" id="overviewTitle">Overview</h2>
+      <div class="stats" id="stats"></div>
+    </section>
+
+    <div class="layout">
+      <section class="panel hidden" id="formPanel" aria-labelledby="formTitle">
+        <div class="panel-head"><h2 id="formTitle">Add trade</h2><button class="small-btn" id="closeFormBtn" aria-label="Close form">Close ×</button></div>
+        <p class="notice hidden" id="formError" role="alert"></p>
+        <form id="tradeForm" novalidate>
+          <input type="hidden" id="tradeId">
+          <div class="form-grid">
+            <div class="field"><label for="date">Date</label><input id="date" type="date" required></div>
+            <div class="field"><label for="pair">Pair / market</label><input id="pair" maxlength="20" placeholder="EURUSD" required></div>
+            <div class="field full" id="directionField"><label>Direction</label><div class="segmented"><button type="button" class="active long" data-direction="Long">Long</button><button type="button" class="short" data-direction="Short">Short</button></div></div>
+            <div class="field" id="entryField"><label for="entry">Entry price (optional)</label><input id="entry" type="number" step="any" min="0" placeholder="1.08500"></div>
+            <div class="field" id="slField"><label for="sl">Stop loss (pips)</label><input id="sl" type="number" step="any" min="0" placeholder="20"></div>
+            <div class="field" id="tp1Field"><label for="tp1">Take profit 1 (pips)</label><input id="tp1" type="number" step="any" min="0" placeholder="40"></div>
+            <div class="field" id="tp2Field"><label for="tp2">Take profit 2 (optional)</label><input id="tp2" type="number" step="any" min="0" placeholder="60"></div>
+            <div class="field" id="tp3Field"><label for="tp3">Take profit 3 (optional)</label><input id="tp3" type="number" step="any" min="0" placeholder="80"></div>
+            <div class="field full" id="actualField"><label for="actual">Actual net result (pips)</label><input id="actual" type="number" step="any" placeholder="e.g. 35 or -20" required></div>
+            <div class="field full"><label for="notes">Notes (optional)</label><textarea id="notes" maxlength="2000" placeholder="What did you notice about this setup?"></textarea></div>
+          </div>
+          <div class="form-actions"><button class="btn primary" type="submit" id="saveBtn">Save trade</button><button class="btn" type="button" id="cancelBtn">Cancel</button></div>
+        </form>
+      </section>
+
+      <section class="panel" aria-labelledby="activityTitle">
+        <div class="panel-head"><h2 id="activityTitle">Trade history</h2><span class="muted" id="tradeCount">0 trades</span></div>
+        <div class="filters" aria-label="Filter trades by date">
+          <button class="filter active" data-filter="all">All time</button><button class="filter" data-filter="week">7 days</button><button class="filter" data-filter="month">30 days</button><button class="filter" data-filter="year">This year</button><button class="filter" data-filter="custom">Custom</button>
+        </div>
+        <div class="custom-range hidden" id="customRange"><div class="field"><label for="fromDate">From</label><input id="fromDate" type="date"></div><div class="field"><label for="toDate">To</label><input id="toDate" type="date"></div><button class="btn" id="applyRangeBtn">Apply</button></div>
+        <div class="trade-list" id="tradeList"></div>
+        <p class="footer-note">Your entries are saved in this browser on this device. This demo does not sync across devices.</p>
+      </section>
+    </div>
+  </main>
+
+  <div class="dialog-backdrop hidden" id="confirmDialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
+    <div class="dialog"><h3 id="dialogTitle">Delete this trade?</h3><p>This will permanently remove the entry from this browser. This action cannot be undone.</p><div class="dialog-actions"><button class="btn" id="keepTradeBtn">Cancel</button><button class="btn danger" id="confirmDeleteBtn">Delete trade</button></div></div>
+  </div>
+  <script src="script.js" defer></script>
+</body>
+</html>
